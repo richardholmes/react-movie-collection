@@ -1,5 +1,5 @@
 #root {
-  max-width: 1320px;
+  width: 1320px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
@@ -72,8 +72,13 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
+.theme-dark button {
+  /* background-color: #0000006b; */
+  background-color: #3b3b3b;
+  color: #ffffff;
+}
 button:hover {
-  border-color: #646cff;
+  border-color: #64c6ffd2;
 }
 button:focus,
 button:focus-visible {
@@ -147,6 +152,11 @@ button:focus-visible {
   gap: 0.5em;
   margin-bottom: 15px;
   align-items: center;
+}
+.heading-buttons button {
+  width: fit-content;
+  color: #fff;
+  background-color: #e154fd;
 }
 
 @keyframes logo-spin {
