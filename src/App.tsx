@@ -1,8 +1,8 @@
 import './App.css'
 import movieEntries from '../data/movies.json';
-import type { MovieListing as Movie } from './types';
-import './index.css'
-import { useState } from 'react';
+import type { Movie as Movie } from './types';
+import { useEffect, useState } from 'react';
+import { type Theme, ThemeContext } from './ThemeContext';
 
 function App() {
 
@@ -77,34 +77,58 @@ function App() {
     setMovieData(movieEntries as Movie[]);
   }
 
+  const [theme, setTheme] = useState<Theme>(() => {
+    return (localStorage.getItem('theme') as Theme) || 'light';
+  });
+  useEffect(() => {
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
   return (
-    <>
-      <div className='heading' style={{ width: '100%', display: 'flex' }}>
-        <div className='heading-title' style={{ textAlign: 'left' }}>
-          <h2>My  collection</h2>
-          <p>View and manage your collection</p>
+    <ThemeContext.Provider value={{ theme, setTheme }}>
+      <div className={`main theme-${theme}`}>
+        <div className='heading' style={{ width: '100%', display: 'flex' }}>
+          <div className='heading-title' style={{ textAlign: 'left' }}>
+            <h2>My  collection</h2>
+            <p>View and manage your collection</p>
+          </div>
+          <div className='function-bar'>
+            <div className='theme-toggle-bar'>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={theme === 'dark'}
+                  onChange={(e) => {
+                    console.log('toggling theme');
+                    setTheme(e.target.checked ? 'dark' : 'light')
+                  }}
+                />
+                Use dark mode
+              </label>
+            </div>
+            <div className='heading-buttons'>
+              <button onClick={() => addOneMovie()}>
+                Add one movie
+              </button>
+              <button onClick={() => addMultipleMovies()}>
+                Add multiple movies
+              </button>
+              <button onClick={() => remove4Movies()}>
+                Remove 4 movies
+              </button>
+              <button onClick={() => resetToDefaultMovies()}>
+                Reset to default movies
+              </button>
+            </div>
+          </div>
         </div>
-        <div className='heading-buttons' style={{ display: 'flex' }}>
-          <button onClick={() => addOneMovie()}>
-            Add one movie
-          </button>
-          <button onClick={() => addMultipleMovies()}>
-            Add multiple movies
-          </button>
-          <button onClick={() => remove4Movies()}>
-            Remove 4 movies
-          </button>
-          <button onClick={() => resetToDefaultMovies()}>
-            Reset to default movies
-          </button>
+        <div className='movie-listing-wrapper'>
+          {movieData.map((movie) => (
+            <MovieListing key={movie.id} movie={movie} />
+          ))}
         </div>
       </div>
-      <div className='movie-listing-wrapper'>
-        {movieData.map((movie) => (
-          <MovieListing movie={movie} />
-        ))}
-      </div>
-    </>
+    </ThemeContext.Provider>
   )
 }
 
