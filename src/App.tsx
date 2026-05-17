@@ -3,6 +3,8 @@ import movieEntries from '../data/movies.json';
 import type { Movie as Movie } from './types';
 import { useEffect, useState } from 'react';
 import { type Theme, ThemeContext } from './ThemeContext';
+import { MovieGrid } from './components/MovieGrid';
+import { FunctionBar } from './components/FunctionBar';
 
 function App() {
 
@@ -25,27 +27,7 @@ function App() {
     setMovieData(newMovieData);
   }
 
-  const MovieListing = ({ movie }: { movie: Movie }) => {
-    return (
-      <div className='movie-listing'>
-        <img src={movie.image} width='100%' style={{ borderRadius: '1em' }} />
-        <p className='name'>{movie.title}</p>
-        <p style={{ marginBottom: '1.5em' }}>{movie.original_title}</p>
-        <p><span style={{ fontWeight: 'bold' }}>Release date:</span> {movie.release_date}</p>
-        <p><span style={{ fontWeight: 'bold' }}>Director:</span> {movie.director}</p>
-        <p><span style={{ fontWeight: 'bold' }}>Producer:</span> {movie.producer}</p>
-        <p><span style={{ fontWeight: 'bold' }}>RT:</span> {movie.rt_score}</p>
-        <div style={{ display: 'flex', justifyItems: 'center', margin: '1em 0' }}>
-          <button onClick={() => editMovie({ id: movie.id })}>
-            Edit
-          </button>
-          <button style={{ color: 'red' }} onClick={() => { deleteMovie({ id: movie.id }) }}>
-            Delete
-          </button>
-        </div>
-      </div >
-    )
-  }
+
 
   const getRemovedMovies = (): Movie[] => {
     const removedMovies = completeMovieList.filter((x) => !movieData.includes(x));
@@ -92,41 +74,16 @@ function App() {
             <h2>My  collection</h2>
             <p>View and manage your collection</p>
           </div>
-          <div className='function-bar'>
-            <div className='theme-toggle-bar'>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={theme === 'dark'}
-                  onChange={(e) => {
-                    console.log('toggling theme');
-                    setTheme(e.target.checked ? 'dark' : 'light')
-                  }}
-                />
-                Use dark mode
-              </label>
-            </div>
-            <div className='heading-buttons'>
-              <button onClick={() => addOneMovie()}>
-                Add one movie
-              </button>
-              <button onClick={() => addMultipleMovies()}>
-                Add multiple movies
-              </button>
-              <button onClick={() => remove4Movies()}>
-                Remove 4 movies
-              </button>
-              <button onClick={() => resetToDefaultMovies()}>
-                Reset to default movies
-              </button>
-            </div>
-          </div>
+          <FunctionBar
+            addOneMovie={addOneMovie}
+            addMultipleMovies={addMultipleMovies}
+            remove4Movies={remove4Movies}
+            resetToDefaultMovies={resetToDefaultMovies}
+            movieData={movieData}
+          />
         </div>
-        <div className='movie-listing-wrapper'>
-          {movieData.map((movie) => (
-            <MovieListing key={movie.id} movie={movie} />
-          ))}
-        </div>
+
+        <MovieGrid movieData={movieData} deleteMovie={deleteMovie} editMovie={editMovie} />
       </div>
     </ThemeContext.Provider>
   )
