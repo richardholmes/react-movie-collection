@@ -1,10 +1,11 @@
 import './App.css'
 import movieEntries from '../data/movies.json';
 import type { Movie as Movie } from './types';
-import { useEffect, useState } from 'react';
-import { type Theme, ThemeContext } from './ThemeContext';
+import { useState } from 'react';
 import { MovieGrid } from './components/MovieGrid';
 import { FunctionBar } from './components/FunctionBar';
+import { themeAtom } from './atoms';
+import { useAtomValue } from 'jotai';
 
 function App() {
 
@@ -59,33 +60,26 @@ function App() {
     setMovieData(movieEntries as Movie[]);
   }
 
-  const [theme, setTheme] = useState<Theme>(() => {
-    return (localStorage.getItem('theme') as Theme) || 'light';
-  });
-  useEffect(() => {
-    localStorage.setItem('theme', theme);
-  }, [theme]);
+  const theme = useAtomValue(themeAtom)
 
   return (
-    <ThemeContext.Provider value={{ theme, setTheme }}>
-      <div className={`main theme-${theme}`}>
-        <div className='heading' style={{ width: '100%', display: 'flex' }}>
-          <div className='heading-title' style={{ textAlign: 'left' }}>
-            <h2>My  collection</h2>
-            <p>View and manage your collection</p>
-          </div>
-          <FunctionBar
-            addOneMovie={addOneMovie}
-            addMultipleMovies={addMultipleMovies}
-            remove4Movies={remove4Movies}
-            resetToDefaultMovies={resetToDefaultMovies}
-            movieData={movieData}
-          />
+    <div className={`main theme-${theme}`}>
+      <div className='heading' style={{ width: '100%', display: 'flex' }}>
+        <div className='heading-title' style={{ textAlign: 'left' }}>
+          <h2>My  collection</h2>
+          <p>View and manage your collection</p>
         </div>
-
-        <MovieGrid movieData={movieData} deleteMovie={deleteMovie} editMovie={editMovie} />
+        <FunctionBar
+          addOneMovie={addOneMovie}
+          addMultipleMovies={addMultipleMovies}
+          remove4Movies={remove4Movies}
+          resetToDefaultMovies={resetToDefaultMovies}
+          movieData={movieData}
+        />
       </div>
-    </ThemeContext.Provider>
+
+      <MovieGrid movieData={movieData} deleteMovie={deleteMovie} editMovie={editMovie} />
+    </div>
   )
 }
 

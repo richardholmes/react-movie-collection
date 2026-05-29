@@ -1,6 +1,7 @@
 
 import type { Movie } from '../types';
-import { useThemeContext, } from './../ThemeContext';
+import { useAtom } from 'jotai';
+import { themeAtom } from '../atoms';
 
 type FunctionBarProps = {
     addOneMovie: () => void;
@@ -11,7 +12,7 @@ type FunctionBarProps = {
 }
 
 export const FunctionBar = ({ addOneMovie, addMultipleMovies, remove4Movies, resetToDefaultMovies, movieData }: FunctionBarProps) => {
-    const { theme, setTheme } = useThemeContext();
+    const [theme, setTheme] = useAtom(themeAtom);
     return (
         <div className='function-bar'>
             <div className='theme-toggle-bar'>
@@ -20,7 +21,6 @@ export const FunctionBar = ({ addOneMovie, addMultipleMovies, remove4Movies, res
                         type="checkbox"
                         checked={theme === 'dark'}
                         onChange={(e) => {
-                            console.log('toggling theme');
                             setTheme(e.target.checked ? 'dark' : 'light')
                         }}
                     />
