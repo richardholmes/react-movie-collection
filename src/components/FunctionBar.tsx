@@ -1,5 +1,5 @@
 
-import { Theme, type Movie } from '../types';
+import { ThemeSetting, type Movie } from '../types';
 import { useAtom } from 'jotai';
 import { themeAtom } from '../atoms';
 
@@ -19,9 +19,9 @@ export const FunctionBar = ({ addOneMovie, addMultipleMovies, remove4Movies, res
                 <label>
                     <input
                         type="checkbox"
-                        checked={theme === 'dark'}
+                        checked={theme === ThemeSetting.Dark}
                         onChange={(e) => {
-                            setTheme(e.target.checked ? Theme.Dark : Theme.Light)
+                            setTheme(e.target.checked ? ThemeSetting.Dark : ThemeSetting.Light)
                         }}
                     />
                     Use dark mode

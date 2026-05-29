@@ -1,6 +1,6 @@
 import './App.css'
 import movieEntries from '../data/movies.json';
-import type { Movie as Movie } from './types';
+import type { Movie } from './types';
 import { useState } from 'react';
 import { MovieGrid } from './components/MovieGrid';
 import { FunctionBar } from './components/FunctionBar';

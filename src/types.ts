@@ -1,4 +1,4 @@
-export interface Movie {
+export type Movie = {
   id: string;
   title: string;
   original_title: string;
@@ -7,11 +7,10 @@ export interface Movie {
   release_date: string;
   rt_score: string;
   image: string;
-}
-
-export type Theme = "light" | "dark";
-
-export const Theme = {
-  Light: "light" as const,
-  Dark: "dark" as const,
 };
+
+export const ThemeSetting = {
+  Light: "light",
+  Dark: "dark",
+} as const;
+export type Theme = (typeof ThemeSetting)[keyof typeof ThemeSetting];
