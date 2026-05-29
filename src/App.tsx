@@ -53,8 +53,7 @@ function App() {
   }
 
   const remove4Movies = () => {
-    let counter = 0;
-    setMovieData(movieData.filter(() => counter++ >= 4))
+    setMovieData(movieData.slice(4));
   }
   const resetToDefaultMovies = () => {
     setMovieData(movieEntries as Movie[]);
