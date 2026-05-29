@@ -1,4 +1,4 @@
 import { atomWithStorage } from "jotai/utils";
-import { ThemeSetting, type Theme } from "./types";
+import { Theme, type ThemeSetting } from "./types";
 
-export const themeAtom = atomWithStorage<Theme>("theme", ThemeSetting.Light);
+export const themeAtom = atomWithStorage<ThemeSetting>("theme", Theme.Light);

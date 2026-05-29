@@ -9,8 +9,8 @@ export type Movie = {
   image: string;
 };
 
-export const ThemeSetting = {
+export const Theme = {
   Light: "light",
   Dark: "dark",
 } as const;
-export type Theme = (typeof ThemeSetting)[keyof typeof ThemeSetting];
+export type ThemeSetting = (typeof Theme)[keyof typeof Theme];
