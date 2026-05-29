@@ -8,3 +8,10 @@ export interface Movie {
   rt_score: string;
   image: string;
 }
+
+export type Theme = "light" | "dark";
+
+export const Theme = {
+  Light: "light" as const,
+  Dark: "dark" as const,
+};
